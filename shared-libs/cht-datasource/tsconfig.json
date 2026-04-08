@@ -10,7 +10,7 @@
     "tsBuildInfoFile": "dist/tsconfig.build.tsbuildinfo",
   },
   "files": [
-    "src/auth.js"
+    "src/auth.js",
   ],
   "include": [
     "src/**/*.ts",

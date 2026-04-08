@@ -1,21 +1,20 @@
 const utils = require('@utils');
 const sentinelUtils = require('@utils/sentinel');
+const { DDOC_IDS, NOUVEAU_INDEXES, VIEWS, getDdoc } = require('@medic/constants');
 
 const VIEW_INDEXES_BY_DB = {
-  'medic-test': [
-    'medic',
-    'medic-admin',
-    'medic-client',
-    'medic-conflicts',
-    'medic-sms',
-  ],
-  'medic-test-sentinel': ['sentinel'],
-  'medic-test-users-meta': ['users-meta'],
-  _users: ['users'],
+  'medic-test': Object.values(DDOC_IDS).map(id => id.replace('_design/', '')),
+  'medic-test-sentinel': [getDdoc(VIEWS.OUTBOUND_PUSH_TASKS)],
+  'medic-test-users-meta': [getDdoc(VIEWS.DEVICE_BY_USER)],
+  _users: [getDdoc(VIEWS.USERS_BY_FIELD)],
 };
 
 const NOUVEAU_INDEXES_BY_DB = {
-  'medic-test': ['medic/contacts_by_freetext', 'medic/reports_by_freetext', 'medic/docs_by_replication_key'],
+  'medic-test': [
+    NOUVEAU_INDEXES.CONTACTS_BY_FREETEXT,
+    NOUVEAU_INDEXES.REPORTS_BY_FREETEXT,
+    NOUVEAU_INDEXES.DOCS_BY_REPLICATION_KEY,
+  ],
 };
 
 const getAppVersion = async () => {

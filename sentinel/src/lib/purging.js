@@ -11,7 +11,7 @@ const request = require('@medic/couch-request');
 const nouveau = require('@medic/nouveau');
 const { roles } = require('@medic/user-management')(config, db, dataContext);
 const moment = require('moment');
-const { SENTINEL_METADATA } = require('@medic/constants');
+const { NOUVEAU_INDEXES, SENTINEL_METADATA, VIEWS, nouveauUrl } = require('@medic/constants');
 
 const TASK_EXPIRATION_PERIOD = 60; // days
 const TARGET_EXPIRATION_PERIOD = 6; // months
@@ -278,7 +278,7 @@ const getRecordsForContactsBatch = async (subjectIds) => {
       opts.bookmark = bookmark;
     }
     const result = await request.post({
-      uri: `${environment.couchUrl}/_design/medic/_nouveau/docs_by_replication_key`,
+      uri: `${environment.couchUrl}/${nouveauUrl(NOUVEAU_INDEXES.DOCS_BY_REPLICATION_KEY)}`,
       body: opts
     });
 
@@ -403,7 +403,7 @@ const batchedContactsPurge = (roles, purgeFn, startKey = '', startKeyDocId = '')
   // using `db.queryMedic` library because PouchDB doesn't support `startkey_docid` in view queries
   // using `startkey_docid` because using `skip` is *very* slow
   return db
-    .queryMedic('medic-client/contacts_by_type', queryString)
+    .queryMedic(VIEWS.CONTACTS_BY_TYPE, queryString)
     .then(result => {
       result.rows.forEach(row => {
         if (row.id === startKeyDocId) {
@@ -456,7 +456,7 @@ const purgeUnallocatedRecords = async (roles, purgeFn) => {
       opts.bookmark = startKey;
     }
     const results = await request.post({
-      url: `${environment.couchUrl}/_design/medic/_nouveau/docs_by_replication_key`,
+      url: `${environment.couchUrl}/${nouveauUrl(NOUVEAU_INDEXES.DOCS_BY_REPLICATION_KEY)}`,
       body: opts,
     });
 
@@ -513,7 +513,7 @@ const purgeTasks = async (roles) => {
   let nextBatch;
 
   // using `db.queryMedic` because PouchDB doesn't support `start_key_doc_id`
-  const getBatch = () => db.queryMedic('medic/tasks_in_terminal_state', {
+  const getBatch = () => db.queryMedic(VIEWS.TASKS_IN_TERMINAL_STATE, {
     limit: MAX_BATCH_SIZE,
     end_key: JSON.stringify(maximumEmissionEndDate),
     start_key: JSON.stringify(startKey),

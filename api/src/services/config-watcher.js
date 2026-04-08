@@ -7,7 +7,7 @@ const logger = require('@medic/logger');
 const translationUtils = require('@medic/translation-utils');
 const tombstoneUtils = require('@medic/tombstone-utils');
 const viewMapUtils = require('@medic/view-map-utils');
-const { DOC_IDS } = require('@medic/constants');
+const { DDOC_IDS, DOC_IDS, NOUVEAU_INDEXES, VIEWS, getViewName } = require('@medic/constants');
 const settingsService = require('./settings');
 const translations = require('../translations');
 const generateXform = require('./generate-xform');
@@ -19,7 +19,7 @@ const dataContext = require('./data-context');
 const extensionLibs = require('./extension-libs');
 const deployInfo = require('./deploy-info');
 
-const MEDIC_DDOC_ID = '_design/medic';
+const MEDIC_DDOC_ID = DDOC_IDS.MEDIC;
 
 const loadTranslations = () => {
   const translationCache = {};
@@ -61,8 +61,8 @@ const loadViewMaps = () => {
     .then(ddoc => {
       viewMapUtils.loadViewMaps(
         ddoc,
-        ['contacts_by_depth'],
-        ['docs_by_replication_key']
+        [getViewName(VIEWS.CONTACTS_BY_DEPTH)],
+        [getViewName(NOUVEAU_INDEXES.DOCS_BY_REPLICATION_KEY)]
       );
     })
     .catch(err => {

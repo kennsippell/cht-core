@@ -1,4 +1,5 @@
 const chai = require('chai');
+const { VIEWS } = require('@medic/constants');
 const GenerateSeachRequests = require('../src/generate-search-requests');
 const service = GenerateSeachRequests.generate;
 
@@ -13,7 +14,7 @@ describe('GenerateSearchRequests service', () => {
     const result = service('reports', {});
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/reports_by_date',
+      view: VIEWS.REPORTS_BY_DATE,
       ordered: true,
       params: {
         descending: true
@@ -33,7 +34,7 @@ describe('GenerateSearchRequests service', () => {
       const result = service('reports', filters);
       chai.expect(result.length).to.equal(1);
       chai.expect(result[0]).to.deep.equal({
-        view: 'medic-client/reports_by_date',
+        view: VIEWS.REPORTS_BY_DATE,
         ordered: true,
         params: {
           descending: true
@@ -50,7 +51,7 @@ describe('GenerateSearchRequests service', () => {
       };
       const result = service('reports', filters);
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('medic-client/reports_by_form');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_FORM);
       chai.expect(result[0].params).to.deep.equal({
         keys: [ [ 'P' ], [ 'R' ] ],
         reduce: false
@@ -64,7 +65,7 @@ describe('GenerateSearchRequests service', () => {
     it('true', () => {
       const result = service('reports', { valid: true });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('medic-client/reports_by_validity');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_VALIDITY);
       chai.expect(result[0].params).to.deep.equal({
         key: [ true ]
       });
@@ -73,7 +74,7 @@ describe('GenerateSearchRequests service', () => {
     it('false', () => {
       const result = service('reports', { valid: false });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('medic-client/reports_by_validity');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_VALIDITY);
       chai.expect(result[0].params).to.deep.equal({
         key: [ false ]
       });
@@ -88,7 +89,7 @@ describe('GenerateSearchRequests service', () => {
       verifiedValues.forEach((value) => {
         const result = service('reports', { verified: value });
         chai.expect(result.length).to.equal(1);
-        chai.expect(result[0].view).to.equal('medic-client/reports_by_verification');
+        chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_VERIFICATION);
         chai.expect(result[0].params).to.deep.equal({
           keys: value.map((v) => [v])
         });
@@ -106,7 +107,7 @@ describe('GenerateSearchRequests service', () => {
     };
     const result = service('reports', filters);
     chai.expect(result.length).to.equal(1);
-    chai.expect(result[0].view).to.equal('medic-client/reports_by_place');
+    chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_PLACE);
     chai.expect(result[0].params).to.deep.equal({
       keys: [ [ 'a' ], [ 'b' ], [ 'c' ] ]
     });
@@ -118,7 +119,7 @@ describe('GenerateSearchRequests service', () => {
     };
     const result = service('reports', filters);
     chai.expect(result.length).to.equal(1);
-    chai.expect(result[0].view).to.equal('medic-client/reports_by_subject');
+    chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_SUBJECT);
     chai.expect(result[0].params).to.deep.equal({
       keys: [ 'a', 'b', 'c' ]
     });
@@ -133,7 +134,7 @@ describe('GenerateSearchRequests service', () => {
     };
     const result = service('reports', filters);
     chai.expect(result.length).to.equal(1);
-    chai.expect(result[0].view).to.equal('medic-client/reports_by_date');
+    chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_DATE);
     chai.expect(result[0].params.startkey[0]).to.equal(1360321199999);
     chai.expect(result[0].params.endkey[0]).to.equal(1371038399999);
   });
@@ -142,7 +143,7 @@ describe('GenerateSearchRequests service', () => {
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
       ordered: true,
-      view: 'medic-client/contacts_by_type',
+      view: VIEWS.CONTACTS_BY_TYPE,
       params: { reduce: false }
     });
   };
@@ -162,7 +163,7 @@ describe('GenerateSearchRequests service', () => {
     const result = service('contacts', filters);
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/contacts_by_type',
+      view: VIEWS.CONTACTS_BY_TYPE,
       params: {
         keys: [ [ 'person' ], [ 'clinic' ] ],
         reduce: false
@@ -182,7 +183,7 @@ describe('GenerateSearchRequests service', () => {
 
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/contacts_by_parent',
+      view: VIEWS.CONTACTS_BY_PARENT,
       params: {
         keys: [ [ 'S-123', 'person' ] ],
       },
@@ -200,13 +201,13 @@ describe('GenerateSearchRequests service', () => {
 
     chai.expect(result.length).to.equal(2);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/contacts_by_parent',
+      view: VIEWS.CONTACTS_BY_PARENT,
       params: {
         keys: [ [ 'S-123', 'person' ] ],
       },
     });
     chai.expect(result[1]).to.deep.equal({
-      view: 'contacts_by_type_freetext',
+      view: VIEWS.CONTACTS_BY_TYPE_FREETEXT,
       union: false,
       freetext: true,
       params: {
@@ -223,7 +224,7 @@ describe('GenerateSearchRequests service', () => {
 
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/contacts_by_parent',
+      view: VIEWS.CONTACTS_BY_PARENT,
       params: { keys: [ 'S-123' ] },
     });
   });
@@ -261,7 +262,7 @@ describe('GenerateSearchRequests service', () => {
     const result = service('contacts', filters);
     chai.expect(result.length).to.equal(1);
     chai.expect(result[0]).to.deep.equal({
-      view: 'medic-client/contacts_by_type',
+      view: VIEWS.CONTACTS_BY_TYPE,
       params: {
         keys: [ [ 'person' ], [ 'clinic' ] ],
         reduce: false
@@ -274,11 +275,11 @@ describe('GenerateSearchRequests service', () => {
     it('reports with exact matching', () => {
       const result = service('reports', { search: 'patient_id:123 form:D' });
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('reports_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'patient_id:123'
       });
-      chai.expect(result[1].view).to.equal('reports_by_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.REPORTS_BY_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'form:d'
       });
@@ -287,17 +288,17 @@ describe('GenerateSearchRequests service', () => {
     it('reports ignores short words - #7288', () => {
       const result = service('reports', { search: 'a be' });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('medic-client/reports_by_date'); // default
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_DATE); // default
     });
 
     it('reports ignores short words but keeps long ones - #7288', () => {
       const result = service('reports', { search: 'a be see d elephant' });
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('reports_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'see'
       });
-      chai.expect(result[1].view).to.equal('reports_by_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.REPORTS_BY_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'elephant'
       });
@@ -306,7 +307,7 @@ describe('GenerateSearchRequests service', () => {
     it('reports starts with', () => {
       const result = service('reports', { search: 'someth' });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('reports_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.REPORTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'someth'
       });
@@ -315,7 +316,7 @@ describe('GenerateSearchRequests service', () => {
     it('contacts starts with', () => {
       const result = service('contacts', { search: 'someth' });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('contacts_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'someth'
       });
@@ -324,11 +325,11 @@ describe('GenerateSearchRequests service', () => {
     it('contacts multiple words', () => {
       const result = service('contacts', { search: 'some thing' });
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'some'
       });
-      chai.expect(result[1].view).to.equal('contacts_by_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'thing'
       });
@@ -337,11 +338,11 @@ describe('GenerateSearchRequests service', () => {
     it('mixing starts with and exact matching', () => {
       const result = service('contacts', { search: 'patient_id:123 visit' });
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'patient_id:123'
       });
-      chai.expect(result[1].view).to.equal('contacts_by_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'visit'
       });
@@ -360,7 +361,7 @@ describe('GenerateSearchRequests service', () => {
       };
       const result = service('contacts', filters);
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         type: 'clinic',
         key: 'someth'
@@ -370,7 +371,7 @@ describe('GenerateSearchRequests service', () => {
     it('reports ignores short words - #7288', () => {
       const result = service('contacts', { search: 'a be' });
       chai.expect(result.length).to.equal(1);
-      chai.expect(result[0].view).to.equal('medic-client/contacts_by_type'); // default
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE); // default
     });
 
     it('contacts ignores short words but keeps long ones - #7288', () => {
@@ -383,12 +384,12 @@ describe('GenerateSearchRequests service', () => {
       };
       const result = service('contacts', filters);
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'see',
         type: 'clinic'
       });
-      chai.expect(result[1].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         type: 'clinic',
         key: 'elephant'
@@ -405,12 +406,12 @@ describe('GenerateSearchRequests service', () => {
       };
       const result = service('contacts', filters);
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'some',
         type: 'clinic'
       });
-      chai.expect(result[1].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'thing',
         type: 'clinic'
@@ -427,7 +428,7 @@ describe('GenerateSearchRequests service', () => {
       };
       const result = service('contacts', filters);
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[0].union).to.equal(true);
       chai.expect(result[0].paramSets).to.deep.equal([
         {
@@ -439,7 +440,7 @@ describe('GenerateSearchRequests service', () => {
           type: 'district_hospital'
         }
       ]);
-      chai.expect(result[1].view).to.equal('contacts_by_type_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_TYPE_FREETEXT);
       chai.expect(result[1].union).to.equal(true);
       chai.expect(result[1].paramSets).to.deep.equal([
         {
@@ -456,11 +457,11 @@ describe('GenerateSearchRequests service', () => {
     it('trim whitespace from search query - #2769', () => {
       const result = service('contacts', { search: '\t  some     thing    ' });
       chai.expect(result.length).to.equal(2);
-      chai.expect(result[0].view).to.equal('contacts_by_freetext');
+      chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[0].params).to.deep.equal({
         key: 'some'
       });
-      chai.expect(result[1].view).to.equal('contacts_by_freetext');
+      chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_FREETEXT);
       chai.expect(result[1].params).to.deep.equal({
         key: 'thing'
       });
@@ -495,7 +496,7 @@ describe('GenerateSearchRequests service', () => {
   it('should add map function to contact type request if sorting by date last visited', () => {
     const result = service('contacts', { types: { selected: [ 'clinic' ] } }, { sortByLastVisitedDate: true } );
     chai.expect(result.length).to.equal(2);
-    chai.expect(result[0].view).to.equal('medic-client/contacts_by_type');
+    chai.expect(result[0].view).to.equal(VIEWS.CONTACTS_BY_TYPE);
     chai.expect(result[0].params).to.deep.equal({ reduce: false, keys: [ [ 'clinic' ] ]});
     chai.expect(result[0].map).to.be.ok;
     const map = result[0].map;
@@ -509,7 +510,7 @@ describe('GenerateSearchRequests service', () => {
   it('should return sortByLastVisitedDate request with map that transforms key and value', () => {
     const result = service('contacts', { types: { selected: [ 'clinic' ] } }, { sortByLastVisitedDate: true } );
     chai.expect(result.length).to.equal(2);
-    chai.expect(result[1].view).to.equal('medic-client/contacts_by_last_visited');
+    chai.expect(result[1].view).to.equal(VIEWS.CONTACTS_BY_LAST_VISITED);
     chai.expect(result[1].params).to.deep.equal({ reduce: true, group: true });
     const mapFn = result[1].map;
     chai.expect(mapFn).to.be.a('function');

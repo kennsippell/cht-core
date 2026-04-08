@@ -10,6 +10,7 @@ import * as Lineage from '../../src/local/libs/lineage';
 import * as Nouveau from '../../src/local/libs/nouveau';
 import * as Qualifier from '../../src/qualifier';
 import { END_OF_ALPHABET_MARKER } from '../../src/libs/constants';
+import { NOUVEAU_INDEXES, VIEWS } from '@medic/constants';
 import { InvalidArgumentError } from '../../src';
 
 describe('local contact', () => {
@@ -229,23 +230,23 @@ describe('local contact', () => {
         queryViewTypeFreetextByKey = sinon.stub();
         const queryDocIdsByKeyStub = sinon.stub(LocalDoc, 'queryDocIdsByKey');
         queryDocIdsByKeyStub
-          .withArgs(localContext.medicDb, 'medic-client/contacts_by_type')
+          .withArgs(localContext.medicDb, VIEWS.CONTACTS_BY_TYPE)
           .returns(queryViewByType);
         queryDocIdsByKeyStub
-          .withArgs(localContext.medicDb, 'medic-offline-freetext/contacts_by_freetext')
+          .withArgs(localContext.medicDb, VIEWS.CONTACTS_BY_FREETEXT)
           .returns(queryViewFreetextByKey);
         queryDocIdsByKeyStub
-          .withArgs(localContext.medicDb, 'medic-offline-freetext/contacts_by_type_freetext')
+          .withArgs(localContext.medicDb, VIEWS.CONTACTS_BY_TYPE_FREETEXT)
           .returns(queryViewTypeFreetextByKey);
 
         queryViewFreetextByRange = sinon.stub();
         queryViewTypeFreetextByRange = sinon.stub();
         const queryDocIdsByRangeStub = sinon.stub(LocalDoc, 'queryDocIdsByRange');
         queryDocIdsByRangeStub
-          .withArgs(localContext.medicDb, 'medic-offline-freetext/contacts_by_freetext')
+          .withArgs(localContext.medicDb, VIEWS.CONTACTS_BY_FREETEXT)
           .returns(queryViewFreetextByRange);
         queryDocIdsByRangeStub
-          .withArgs(localContext.medicDb, 'medic-offline-freetext/contacts_by_type_freetext')
+          .withArgs(localContext.medicDb, VIEWS.CONTACTS_BY_TYPE_FREETEXT)
           .returns(queryViewTypeFreetextByRange);
 
         fetchAndFilterIdsInner = sinon.stub();
@@ -256,7 +257,7 @@ describe('local contact', () => {
         queryNouveauFreetext = sinon.stub();
         sinon
           .stub(Nouveau, 'queryByFreetext')
-          .withArgs(localContext.medicDb, 'contacts_by_freetext')
+          .withArgs(localContext.medicDb, NOUVEAU_INDEXES.CONTACTS_BY_FREETEXT)
           .returns(queryNouveauFreetext);
 
         useNouveauIndexes = sinon.stub(Nouveau, 'useNouveauIndexes');

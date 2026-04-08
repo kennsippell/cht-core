@@ -313,6 +313,7 @@ app.get(`${routePrefix}login/oidc/authorize`, login.oidcAuthorize);
 app.get(`${routePrefix}login/oidc`, login.oidcLogin);
 app.get(`${routePrefix}privacy-policy`, privacyPolicyController.get);
 
+
 // authorization for `_compact`, `_view_cleanup`, `_revs_limit` endpoints is handled by CouchDB
 const ONLINE_ONLY_ENDPOINTS = [
   '_design/*db/_list/*list',
