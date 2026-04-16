@@ -93,6 +93,7 @@ describe('Reports Search', () => {
       const potuPregnancy = reports[3];
       await commonPage.goToReports();
       // Asserting first load reports
+      await reportsPage.waitForReportsLoaded();
       expect((await reportsPage.reportsListDetails()).length).to.equal(allReports.length);
 
       await reportsPage.openReport(sittuPregnancy._id);
@@ -110,6 +111,7 @@ describe('Reports Search', () => {
       async () => {
         await commonPage.goToReports();
         // Asserting first load reports
+        await reportsPage.waitForReportsLoaded();
         expect((await reportsPage.reportsListDetails()).length).to.equal(allReports.length);
 
         await searchPage.performSearch('note:sittu');
@@ -121,6 +123,7 @@ describe('Reports Search', () => {
         }
 
         await searchPage.clearSearch();
+        await reportsPage.waitForReportsLoaded();
         expect((await reportsPage.reportsListDetails()).length).to.equal(allReports.length);
         for (const report of allReports) {
           expect(await reportsPage.leftPanelSelectors.reportByUUID(report._id).isDisplayed()).to.be.true;
