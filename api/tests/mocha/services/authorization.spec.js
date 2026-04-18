@@ -974,7 +974,7 @@ describe('Authorization service', () => {
         { id: 'ts-task3', fields: { key: PREFIXES.COUCH_USER + 'user', type: 'task' } },
         { id: 'r3', fields: { key: 'contact', type: 'person' } },
         { id: 'task2', fields: { key: PREFIXES.COUCH_USER + 'user', type: 'task' } },
-        { id: 'ts-r5', fields: { key: 'place', type: 'clinic' } },
+        { id: 'ts-r5', fields: { key: 'place', type: CONTACT_TYPES.CLINIC } },
       ];
 
       const ctx = { userCtx: { name: 'user' } };
@@ -2270,12 +2270,12 @@ describe('Authorization service', () => {
           { key: ['clinic_id', 0], value: { shortcode: 'clinic', primary_contact: 'juli' } },
         ];
         service.updateContext(true, feed, viewResults).should.equal(true);
-        feed.subjectIds.should.have.deep.members([ 'clinic_id', 'clinic' ]);
+        feed.subjectIds.should.have.deep.members([ 'clinic_id', CONTACT_TYPES.CLINIC ]);
         service.updateContext(true, feed, viewResults).should.equal(false);
 
         feed.replicatePrimaryContacts = true;
         service.updateContext(true, feed, viewResults).should.equal(true);
-        feed.subjectIds.should.have.deep.members([ 'clinic_id', 'clinic', 'juli' ]);
+        feed.subjectIds.should.have.deep.members([ 'clinic_id', CONTACT_TYPES.CLINIC, 'juli' ]);
       });
     });
 
@@ -3094,9 +3094,9 @@ describe('Authorization service', () => {
               parent: { _id: 'p2', parent: { _id: 'p3' } }
             }
           },
-          { id: 'p1', doc: { _id: 'p1', type: 'clinic', parent: { _id: 'facility_id' } } },
+          { id: 'p1', doc: { _id: 'p1', type: CONTACT_TYPES.CLINIC, parent: { _id: 'facility_id' } } },
           { id: 'facility_id', doc: { _id: 'facility_id', type: 'district_hospital' } },
-          { id: 'p2', doc: { _id: 'p2', type: 'clinic', parent: { _id: 'p3' } } },
+          { id: 'p2', doc: { _id: 'p2', type: CONTACT_TYPES.CLINIC, parent: { _id: 'p3' } } },
           { id: 'p3', doc: { _id: 'p3', type: 'district_hospital' } },
         ]});
 
@@ -3496,7 +3496,7 @@ describe('Authorization service', () => {
               type: 'person',
               patient_id: 'patient1', parent: { _id: 'p1', parent: { _id: 'facility_id' } }
             }},
-          { id: 'p1', doc: { _id: 'p1', type: 'clinic', parent: { _id: 'facility_id' } } },
+          { id: 'p1', doc: { _id: 'p1', type: CONTACT_TYPES.CLINIC, parent: { _id: 'facility_id' } } },
           { id: 'facility_id', doc: { _id: 'facility_id', type: 'district_hospital' } },
         ]});
 

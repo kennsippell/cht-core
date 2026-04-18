@@ -11,6 +11,7 @@ const placeFactory = require('@factories/cht/contacts/place');
 const personFactory = require('@factories/cht/contacts/person');
 const reportFactory = require('@factories/cht/reports/generic-report');
 const pregnancyFactory = require('@factories/cht/reports/pregnancy');
+const { CONTACT_TYPES } = require('@medic/constants');
 
 describe('Contact details page.', () => {
   describe('Permissions to show reports and tasks', () => {
@@ -139,7 +140,7 @@ describe('Contact details page.', () => {
 
   describe('Contact summary error', () => {
     const places = placeFactory.generateHierarchy();
-    const clinic = places.get('clinic');
+    const clinic = places.get(CONTACT_TYPES.CLINIC);
 
     const patient = personFactory.build({
       name: 'Patient',

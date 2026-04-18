@@ -18,7 +18,7 @@ const place = () => {
 };
 
 
-const generatePlaces = (types = ['district_hospital', CONTACT_TYPES.HEALTH_CENTER, 'clinic']) => {
+const generatePlaces = (types = ['district_hospital', CONTACT_TYPES.HEALTH_CENTER, CONTACT_TYPES.CLINIC]) => {
   return types.map((type, index) => {
     return place().build({
       name: `${type.replace('_', ' ')}${index}`,

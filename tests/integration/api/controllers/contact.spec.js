@@ -45,7 +45,7 @@ describe('Contact API', () => {
     notes: commonWord
   });
   const place0 = utils.deepFreeze({
-    ...placeMap.get('clinic'),
+    ...placeMap.get(CONTACT_TYPES.CLINIC),
     notes: commonWord,
     contact: { _id: contact0._id },
     parent: {
@@ -69,7 +69,7 @@ describe('Contact API', () => {
     role: 'patient',
     short_name: 'Mary'
   }));
-  const placeType = 'clinic';
+  const placeType = CONTACT_TYPES.CLINIC;
   const clinic1 = utils.deepFreeze(placeFactory.place().build({
     parent: {
       _id: place1._id,
