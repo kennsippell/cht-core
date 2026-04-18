@@ -11,6 +11,14 @@ const openEditSettings = async () => {
 
 const selectLanguage = async (code) => {
   await languageDropDown().waitForDisplayed();
+  await browser.waitUntil(async () => {
+    const options = await languageDropDown().$$('option');
+    const values = await Promise.all(options.map(opt => opt.getAttribute('value')));
+    return values.includes(code);
+  }, {
+    timeout: 10000,
+    timeoutMsg: `Language option with value "${code}" not found in dropdown after 10s`
+  });
   await languageDropDown().selectByAttribute('value', code);
   await modalPage.submit();
 };

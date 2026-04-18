@@ -925,8 +925,9 @@ const listenForApi = async () => {
       }
       return;
     } catch (err) {
-      console.log('API check failed, trying again in 1 second');
-      console.log(err.message);
+      const statusCode = err.status || err.statusCode || (err.response && err.response.status);
+      const msg = statusCode ? `${statusCode} - ${err.message}` : err.message;
+      console.log(`API check failed (${msg}), trying again in 1 second`);
       await delayPromise(1000);
     }
   } while (--retryCount > 0);
