@@ -13,7 +13,7 @@ const selectLanguage = async (code) => {
   await languageDropDown().waitForDisplayed();
   await browser.waitUntil(async () => {
     const options = await languageDropDown().$$('option');
-    const values = await Promise.all(options.map(opt => opt.getAttribute('value')));
+    const values = await options.map(opt => opt.getAttribute('value'));
     return values.includes(code);
   }, {
     timeout: 10000,
