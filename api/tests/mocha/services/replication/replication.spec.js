@@ -2,11 +2,11 @@ const sinon = require('sinon');
 const chai = require('chai').use(require('chai-as-promised'));
 const expect = chai.expect;
 
-const db = require('../../../src/db');
-const authorization = require('../../../src/services/authorization');
-const purgedDocs = require('../../../src/services/purged-docs');
-const replication = require('../../../src/services/replication');
-const replicationLimitLog = require('../../../src/services/replication-limit-log');
+const db = require('../../../../src/db');
+const authorization = require('../../../../src/services/replication/authorization');
+const purgedDocs = require('../../../../src/services/replication/purged-docs');
+const replication = require('../../../../src/services/replication/replication');
+const replicationLimitLog = require('../../../../src/services/replication/replication-limit-log');
 
 let userCtx;
 let authContext;

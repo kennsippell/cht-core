@@ -1823,6 +1823,8 @@ module.exports = {
   isK3D,
   stopCouchDb,
   startCouchDb,
+  stopService,
+  startService,
   getDefaultForms,
   toggleSentinelTransitions,
   runSentinelTasks,

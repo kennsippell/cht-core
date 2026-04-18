@@ -1,7 +1,7 @@
-const db = require('../db');
-const auth = require('../auth');
+const db = require('../../db');
+const auth = require('../../auth');
 const _ = require('lodash');
-const config = require('../config');
+const config = require('../../config');
 const viewMapUtils = require('@medic/view-map-utils');
 const registrationUtils = require('@medic/registration-utils');
 const request = require('@medic/couch-request');
@@ -374,6 +374,8 @@ const getAuthorizationContext = async (userCtx) => {
     authCtx.subjectIds.push(UNASSIGNED_KEY);
     authCtx.subjectsDepth[UNASSIGNED_KEY] = 0;
   }
+
+  authCtx.userCtx.subjectsCount = authCtx.subjectIds.length;
 
   return authCtx;
 };
