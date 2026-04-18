@@ -11,6 +11,9 @@ import * as LocalCore from '../../src/local/libs/core';
 import * as Input from '../../src/input';
 import { InvalidArgumentError, ResourceNotFoundError } from '../../src';
 import * as LocalContact from '../../src/local/contact';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 describe('local place', () => {
   let localContext: LocalDataContext;
@@ -351,7 +354,7 @@ describe('local place', () => {
       const contact = {
         ...minifiedContact,
         _rev: '1',
-        type: 'person'
+        type: PERSON
       } as const;
       const placeDoc = { hello: 'world' };
       const reportedDate = new Date().getTime();
@@ -718,7 +721,7 @@ describe('local place', () => {
       const contact = {
         ...contactMinified,
         _rev: '1',
-        type: 'person'
+        type: PERSON
       } as const;
       const newContactMinified = {
         _id: 'contact-2',
@@ -729,7 +732,7 @@ describe('local place', () => {
       const newContact = {
         ...newContactMinified,
         _rev: '1',
-        type: 'person'
+        type: PERSON
       };
 
       const originalDoc = {

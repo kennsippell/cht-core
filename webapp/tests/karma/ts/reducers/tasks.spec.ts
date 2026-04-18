@@ -5,6 +5,9 @@ import moment from 'moment';
 import { Actions as GlobalActions } from '@mm-actions/global';
 import { Actions } from '@mm-actions/tasks';
 import { tasksReducer, orderByDueDateAndPriority } from '@mm-reducers/tasks';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 describe('Tasks reducer', () => {
   let state;
@@ -693,7 +696,7 @@ describe('Tasks reducer', () => {
 
   describe('setTaskGroupContact', () => {
     it('should work on empty state', () => {
-      const contact = { _id: 'contact', type: 'person' };
+      const contact = { _id: 'contact', type: PERSON };
       state = tasksReducer(state, Actions.setTaskGroupContact(contact));
       expect(state).to.deep.equal({
         tasksList: [],

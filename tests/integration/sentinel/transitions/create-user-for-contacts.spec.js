@@ -2,6 +2,7 @@ const utils = require('@utils');
 const sentinelUtils = require('@utils/sentinel');
 const messagesUtils = require('@utils/messages');
 const { assert } = require('chai');
+const { CONTACT_TYPES } = require('@medic/constants');
 
 const CLINIC = utils.deepFreeze({
   _id: 'clinic',
@@ -10,14 +11,14 @@ const CLINIC = utils.deepFreeze({
 
 const ORIGINAL_PERSON = utils.deepFreeze({
   _id: 'original_person',
-  type: 'person',
+  type: CONTACT_TYPES.PERSON,
   name: 'Original Person',
   parent: { _id: CLINIC._id },
 });
 
 const NEW_PERSON = utils.deepFreeze({
   _id: 'new_person',
-  type: 'person',
+  type: CONTACT_TYPES.PERSON,
   name: 'New Person',
   phone: '+254712345678',
   parent: { _id: CLINIC._id },
@@ -131,7 +132,7 @@ describe('create_user_for_contacts', () => {
     // contact was initially created and so this is the first time it is being processed by Sentinel)
     const additionalPerson = {
       _id: 'additional_person',
-      type: 'person',
+      type: CONTACT_TYPES.PERSON,
       name: 'Additional Person',
       phone: '+254712345679',
       parent: { _id: CLINIC._id },

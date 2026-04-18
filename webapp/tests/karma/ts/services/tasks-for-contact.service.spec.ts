@@ -6,6 +6,9 @@ import { TasksForContactService } from '@mm-services/tasks-for-contact.service';
 import { ContactTypesService } from '@mm-services/contact-types.service';
 import { RulesEngineService } from '@mm-services/rules-engine.service';
 import { LineageModelGeneratorService } from '@mm-services/lineage-model-generator.service';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 describe('TasksForContact service', () => {
 
@@ -184,7 +187,7 @@ describe('TasksForContact service', () => {
 
     it('should return lineage doc leaf type place ', async () => {
       lineageModelGeneratorService.contact.resolves({
-        doc: { _id: 'theperson', type: 'person' },
+        doc: { _id: 'theperson', type: PERSON },
         lineage: [{ _id: 'theclinic', type: 'clinic' }, { _id: 'thehc', type: 'health_center' }],
       });
       expect(await service.getLeafPlaceAncestor('theperson')).to.deep.equal({
@@ -197,7 +200,7 @@ describe('TasksForContact service', () => {
 
     it('should return false if no leaf type place is found', async () => {
       lineageModelGeneratorService.contact.resolves({
-        doc: { _id: 'theperson', type: 'person' },
+        doc: { _id: 'theperson', type: PERSON },
         lineage: [{ _id: 'thehc', type: 'health_center' }, { _id: 'thedc', type: 'district' }],
       });
       expect(await service.getLeafPlaceAncestor('theperson')).to.equal(false);

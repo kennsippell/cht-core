@@ -65,7 +65,8 @@ describe('Muting transition', () => {
 
       chai.expect(transition.filter({})).to.equal(false);
       chai.expect(transition.filter({ doc: {} })).to.equal(false);
-      chai.expect(transition.filter({ doc: { type: 'person' } })).to.equal(false);
+
+      chai.expect(transition.filter({ doc: { type: CONTACT_TYPES.PERSON } })).to.equal(false);
       chai.expect(transition.filter({ doc: { type: DOC_TYPES.DATA_RECORD } })).to.equal(false);
       chai.expect(transition.filter({ doc: { type: DOC_TYPES.DATA_RECORD, form: 'test' } })).to.equal(false);
       chai.expect(transition.filter({ doc: { type: DOC_TYPES.DATA_RECORD, 
@@ -104,7 +105,8 @@ describe('Muting transition', () => {
       chai.expect(transition.filter({ doc: { muted: false }, info: {} })).to.equal(false); // not a contact
       chai.expect(transition.filter({ doc: { muted: false, type: 'something' }, info: {} }))
         .to.equal(false); // not a contact
-      chai.expect(transition.filter({ doc: { muted: false, type: 'person'}, info: { initial_replication_date: 1 } }))
+      chai.expect(transition.filter({ doc: { muted: false, type: CONTACT_TYPES.PERSON}, 
+        info: { initial_replication_date: 1 } }))
         .to.equal(false);
       chai.expect(transition.filter({ doc: { muted: false, type: 'clinic'}, info: { initial_replication_date: 2 } }))
         .to.equal(false);
@@ -118,7 +120,7 @@ describe('Muting transition', () => {
       })).to.equal(false); // not a valid contact type,  doesn't even call isMutedInLineage
       chai.expect(mutingUtils.isMutedInLineage.callCount).to.equal(2);
       chai.expect(mutingUtils.isMutedInLineage.args).to.deep.equal([
-        [{ muted: false, type: 'person' }, 1],
+        [{ muted: false, type: CONTACT_TYPES.PERSON }, 1],
         [{ muted: false, type: 'clinic' }, 2]
       ]);
     });
@@ -133,7 +135,8 @@ describe('Muting transition', () => {
         ]
       });
       mutingUtils.isMutedInLineage.returns(true);
-      chai.expect(transition.filter({ doc: { muted: false, type: 'person' }, info: { initial_replication_date: 1 } }))
+      chai.expect(transition.filter({ doc: { muted: false, type: CONTACT_TYPES.PERSON }, 
+        info: { initial_replication_date: 1 } }))
         .to.equal(true);
       chai.expect(transition.filter({ doc: { muted: false, type: 'clinic' }, info: { initial_replication_date: 2 }}))
         .to.equal(true);
@@ -152,7 +155,7 @@ describe('Muting transition', () => {
 
       chai.expect(mutingUtils.isMutedInLineage.callCount).to.equal(5);
       chai.expect(mutingUtils.isMutedInLineage.args).to.deep.equal([
-        [{ muted: false, type: 'person' }, 1],
+        [{ muted: false, type: CONTACT_TYPES.PERSON }, 1],
         [{ muted: false, type: 'clinic' }, 2],
         [{ muted: false, type: 'district_hospital' }, 3],
         [{ muted: false, type: CONTACT_TYPES.HEALTH_CENTER }, 4],
@@ -170,14 +173,14 @@ describe('Muting transition', () => {
         ]
       });
       const contactMutedByClient = {
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         muted: true,
         muting_history: {
           last_update: 'client_side',
         },
       };
       const contactMutedByServer = {
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         muted: true,
         muting_history: {
           server: { muted: true, date: 20 },
@@ -194,7 +197,7 @@ describe('Muting transition', () => {
       mutingUtils.isMutedInLineage.returns(true);
       // because it's been muted before we want to ignore it
       chai.expect(transition.filter({
-        doc: { muted: false, type: 'person' },
+        doc: { muted: false, type: CONTACT_TYPES.PERSON },
         info: { muting_history: [{some: 'history'}] }
       })).to.equal(false);
     });
@@ -211,7 +214,7 @@ describe('Muting transition', () => {
       afterEach(() => clock.restore());
 
       it('should update the contact', () => {
-        const doc = { _id: 'id', type: 'person', patient_id: 'patient' };
+        const doc = { _id: 'id', type: CONTACT_TYPES.PERSON, patient_id: 'patient' };
         const info = { initial_replication_date: 'unknown' };
         mutingUtils.updateRegistrations.resolves();
         utils.getSubjectIds.returns(['id', 'patient']);
@@ -235,7 +238,7 @@ describe('Muting transition', () => {
       });
 
       it('should throw updateRegistrations errors', () => {
-        const doc = { _id: 'id', type: 'person', patient_id: 'patient' };
+        const doc = { _id: 'id', type: CONTACT_TYPES.PERSON, patient_id: 'patient' };
         mutingUtils.updateRegistrations.rejects({ some: 'error' });
         utils.getSubjectIds.returns(['id', 'patient']);
         mutingUtils.updateMutingHistory.resolves();
@@ -258,7 +261,7 @@ describe('Muting transition', () => {
       });
 
       it('should throw updateMutingHistory errors', () => {
-        const doc = { _id: 'id', type: 'person', patient_id: 'patient' };
+        const doc = { _id: 'id', type: CONTACT_TYPES.PERSON, patient_id: 'patient' };
         const info = { initial_replication_date: 'unknown' };
         mutingUtils.updateRegistrations.resolves();
         utils.getSubjectIds.returns(['id', 'patient']);
@@ -283,7 +286,7 @@ describe('Muting transition', () => {
       });
 
       it('should return false when contact is not updated', () => {
-        const doc = { _id: 'id', type: 'person', patient_id: 'patient' };
+        const doc = { _id: 'id', type: CONTACT_TYPES.PERSON, patient_id: 'patient' };
         const info = { initial_replication_date: 'unknown' };
         mutingUtils.updateRegistrations.resolves();
         utils.getSubjectIds.returns(['id', 'patient']);
@@ -320,7 +323,7 @@ describe('Muting transition', () => {
         const info = { initial_replication_date: 'unknown' };
         const doc = {
           _id: 'patient',
-          type: 'person',
+          type: CONTACT_TYPES.PERSON,
           muted: true,
           muting_history: {
             server: { muted: false },
@@ -356,7 +359,7 @@ describe('Muting transition', () => {
         const info = { initial_replication_date: 'unknown' };
         const doc = {
           _id: 'patient',
-          type: 'person',
+          type: CONTACT_TYPES.PERSON,
           muting_history: {
             server: { muted: true },
             client_side: [
@@ -390,7 +393,7 @@ describe('Muting transition', () => {
       it('should throw updateRegistrations errors', () => {
         const doc = {
           _id: 'id',
-          type: 'person',
+          type: CONTACT_TYPES.PERSON,
           patient_id: 'patient',
           muting_history: {
             last_update: 'client_side',
@@ -418,7 +421,7 @@ describe('Muting transition', () => {
       it('should throw updateMutingHistory errors', () => {
         const doc = {
           _id: 'id',
-          type: 'person',
+          type: CONTACT_TYPES.PERSON,
           patient_id: 'patient',
           muting_history: {
             last_update: 'client_side',

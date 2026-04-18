@@ -9,6 +9,9 @@ import { NgIf, DOCUMENT } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CHTDatasourceService } from '@mm-services/cht-datasource.service';
 import { CHTDatasourceService as CHTDatasourceServiceStub } from './stubs/cht-datasource.service';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 const DEFAULT_FORM_ID = 'cht-form-id';
 
@@ -25,7 +28,7 @@ export class AppComponent {
     'district_hospital',
     'health_center',
     'clinic',
-    'person'
+    PERSON
   ];
 
   private readonly chtDataSourceService: CHTDatasourceServiceStub;

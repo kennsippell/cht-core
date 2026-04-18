@@ -11,6 +11,9 @@ import { PhonePipe } from '@mm-pipes/phone.pipe';
 import { FormatDateService } from '@mm-services/format-date.service';
 import { RelativeDateService } from '@mm-services/relative-date.service';
 import { XmlFormsContextUtilsService } from '@mm-services/xml-forms-context-utils.service';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 describe('Parse provider', () => {
   let provider:ParseProvider;
@@ -93,7 +96,7 @@ describe('Parse provider', () => {
         name: 'Hanry',
         phone: '+61466661112',
         contact_type: 'chp',
-        type: 'person',
+        type: PERSON,
         reported_date: 1602853017680,
         parent: {
           name: 'Sushi Roll Clinic',
@@ -104,7 +107,7 @@ describe('Parse provider', () => {
             name: 'Hanry',
             phone: '+61466661112',
             contact_type: 'chp',
-            type: 'person',
+            type: PERSON,
             reported_date: 1602853017680,
             parent: {
               _id: 'dcf86fe98aa9fe2ddb207e4483006f69'
@@ -161,7 +164,7 @@ describe('Parse provider', () => {
         reported_date: 1672900567448,
         role: 'patient',
         sex: 'female',
-        type: 'person',
+        type: PERSON,
       };
       const summaryAlive = {
         alive: true,

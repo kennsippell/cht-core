@@ -32,7 +32,7 @@ const contacts = [
   {
     _id: 'person',
     name: 'Person',
-    type: 'person',
+    type: CONTACT_TYPES.PERSON,
     patient_id: '99999',
     parent: { _id: 'clinic', parent: { _id: CONTACT_TYPES.HEALTH_CENTER, parent: { _id: 'district_hospital' } } },
     phone: '+444999',
@@ -41,7 +41,7 @@ const contacts = [
   {
     _id: 'person2',
     name: 'Person',
-    type: 'person',
+    type: CONTACT_TYPES.PERSON,
     patient_id: '101010',
     parent: { _id: 'clinic', parent: { _id: CONTACT_TYPES.HEALTH_CENTER, parent: { _id: 'district_hospital' } } },
     phone: '+99998888',
@@ -50,7 +50,7 @@ const contacts = [
   {
     _id: 'supervisor',
     name: 'Supervisor',
-    type: 'person',
+    type: CONTACT_TYPES.PERSON,
     parent: { _id: CONTACT_TYPES.HEALTH_CENTER, parent: { _id: 'district_hospital' } },
     phone: '+111222',
     reported_date: new Date().getTime()
@@ -69,7 +69,7 @@ const contacts = [
   {
     _id: 'person3',
     name: 'Person',
-    type: 'person',
+    type: CONTACT_TYPES.PERSON,
     patient_id: '202020',
     parent: { _id: 'clinic2', parent: { _id: CONTACT_TYPES.HEALTH_CENTER, parent: { _id: 'district_hospital' } } },
     phone: '+202020',

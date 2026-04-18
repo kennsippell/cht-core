@@ -1,11 +1,11 @@
 const { CONTACT_TYPES } = require('@medic/constants');
 
-const HARDCODED_PERSON_TYPE = 'person';
+const HARDCODED_PERSON_TYPE = CONTACT_TYPES.PERSON;
 const HARDCODED_TYPES = [
   'district_hospital',
   CONTACT_TYPES.HEALTH_CENTER,
   'clinic',
-  'person'
+  CONTACT_TYPES.PERSON
 ];
 
 const getContactTypes = config => {

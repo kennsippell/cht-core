@@ -2,6 +2,9 @@ import { expect } from 'chai';
 
 import { Actions } from '@mm-actions/contacts';
 import { contactsReducer } from '@mm-reducers/contacts';
+import { CONTACT_TYPES } from '@medic/constants';
+
+const { PERSON } = CONTACT_TYPES;
 
 describe('Contacts Reducer', () => {
   let state;
@@ -44,8 +47,8 @@ describe('Contacts Reducer', () => {
       const contacts = [
         {  _id: '1', name: 'Centre 1', type: 'health_center' },
         {  _id: '2', name: 'Facility 3', type: 'district_hospital' },
-        {  _id: '3', name: 'Person 1', type: 'person' },
-        {  _id: '4', name: 'Person 2', type: 'person' },
+        {  _id: '3', name: 'Person 1', type: PERSON },
+        {  _id: '4', name: 'Person 2', type: PERSON },
       ];
       const newState = contactsReducer(undefined, Actions.updateContactsList(contacts));
 
@@ -54,14 +57,14 @@ describe('Contacts Reducer', () => {
         contacts: [
           { _id: '2', name: 'Facility 3', type: 'district_hospital' },
           { _id: '1', name: 'Centre 1', type: 'health_center' },
-          { _id: '3', name: 'Person 1', type: 'person' },
-          { _id: '4', name: 'Person 2', type: 'person' }
+          { _id: '3', name: 'Person 1', type: PERSON },
+          { _id: '4', name: 'Person 2', type: PERSON }
         ],
         contactsById: new Map([
           ['1', { _id: '1', name: 'Centre 1', type: 'health_center' }],
           ['2', { _id: '2', name: 'Facility 3', type: 'district_hospital' }],
-          ['3', { _id: '3', name: 'Person 1', type: 'person' }],
-          ['4', { _id: '4', name: 'Person 2', type: 'person' }],
+          ['3', { _id: '3', name: 'Person 1', type: PERSON }],
+          ['4', { _id: '4', name: 'Person 2', type: PERSON }],
         ]),
         filters: {},
         selected: null,
@@ -85,7 +88,7 @@ describe('Contacts Reducer', () => {
       };
       const newContacts = [
         { _id: '3', name: 'Facility 2', type: 'district_hospital' },
-        { _id: '4', name: 'Person 1', type: 'person' },
+        { _id: '4', name: 'Person 1', type: PERSON },
       ];
 
       const newState = contactsReducer(state, Actions.updateContactsList(newContacts));
@@ -95,13 +98,13 @@ describe('Contacts Reducer', () => {
           { _id: '3', name: 'Facility 2', type: 'district_hospital' },
           { _id: '2', name: 'Facility 3', type: 'district_hospital' },
           { _id: '1', name: 'Centre 1', type: 'health_center' },
-          { _id: '4', name: 'Person 1', type: 'person' }
+          { _id: '4', name: 'Person 1', type: PERSON }
         ],
         contactsById: new Map([
           ['1', { _id: '1', name: 'Centre 1', type: 'health_center' }],
           ['2', { _id: '2', name: 'Facility 3', type: 'district_hospital' }],
           ['3', { _id: '3', name: 'Facility 2', type: 'district_hospital' }],
-          ['4', { _id: '4', name: 'Person 1', type: 'person' }],
+          ['4', { _id: '4', name: 'Person 1', type: PERSON }],
         ])
       });
     });
@@ -234,32 +237,32 @@ describe('Contacts Reducer', () => {
     it('should push dead people to the bottom of the list', () => {
       state = {
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
+          { _id: '1', name: 'Person 1', type: PERSON },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }]
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }]
         ])
       };
       const newContacts = [
-        { _id: '2', name: 'Person 2', type: 'person', date_of_death: '2020-11-18' },
-        { _id: '3', name: 'Person 3', type: 'person' },
-        { _id: '4', name: 'Person 4', type: 'person' }
+        { _id: '2', name: 'Person 2', type: PERSON, date_of_death: '2020-11-18' },
+        { _id: '3', name: 'Person 3', type: PERSON },
+        { _id: '4', name: 'Person 4', type: PERSON }
       ];
 
       const newState = contactsReducer(state, Actions.updateContactsList(newContacts));
 
       expect(newState).to.deep.equal({
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
-          { _id: '3', name: 'Person 3', type: 'person' },
-          { _id: '4', name: 'Person 4', type: 'person' },
-          { _id: '2', name: 'Person 2', type: 'person', date_of_death: '2020-11-18' },
+          { _id: '1', name: 'Person 1', type: PERSON },
+          { _id: '3', name: 'Person 3', type: PERSON },
+          { _id: '4', name: 'Person 4', type: PERSON },
+          { _id: '2', name: 'Person 2', type: PERSON, date_of_death: '2020-11-18' },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }],
-          ['2', { _id: '2', name: 'Person 2', type: 'person', date_of_death: '2020-11-18'  }],
-          ['3', { _id: '3', name: 'Person 3', type: 'person' }],
-          ['4', { _id: '4', name: 'Person 4', type: 'person' }],
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }],
+          ['2', { _id: '2', name: 'Person 2', type: PERSON, date_of_death: '2020-11-18'  }],
+          ['3', { _id: '3', name: 'Person 3', type: PERSON }],
+          ['4', { _id: '4', name: 'Person 4', type: PERSON }],
         ])
       });
     });
@@ -267,32 +270,32 @@ describe('Contacts Reducer', () => {
     it('should push muted people to the bottom of the list', () => {
       state = {
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
+          { _id: '1', name: 'Person 1', type: PERSON },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }]
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }]
         ])
       };
       const newContacts = [
-        { _id: '2', name: 'Person 2', type: 'person', muted: true },
-        { _id: '3', name: 'Person 3', type: 'person' },
-        { _id: '4', name: 'Person 4', type: 'person' }
+        { _id: '2', name: 'Person 2', type: PERSON, muted: true },
+        { _id: '3', name: 'Person 3', type: PERSON },
+        { _id: '4', name: 'Person 4', type: PERSON }
       ];
 
       const newState = contactsReducer(state, Actions.updateContactsList(newContacts));
 
       expect(newState).to.deep.equal({
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
-          { _id: '3', name: 'Person 3', type: 'person' },
-          { _id: '4', name: 'Person 4', type: 'person' },
-          { _id: '2', name: 'Person 2', type: 'person', muted: true },
+          { _id: '1', name: 'Person 1', type: PERSON },
+          { _id: '3', name: 'Person 3', type: PERSON },
+          { _id: '4', name: 'Person 4', type: PERSON },
+          { _id: '2', name: 'Person 2', type: PERSON, muted: true },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }],
-          ['2', { _id: '2', name: 'Person 2', type: 'person', muted: true  }],
-          ['3', { _id: '3', name: 'Person 3', type: 'person' }],
-          ['4', { _id: '4', name: 'Person 4', type: 'person' }],
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }],
+          ['2', { _id: '2', name: 'Person 2', type: PERSON, muted: true  }],
+          ['3', { _id: '3', name: 'Person 3', type: PERSON }],
+          ['4', { _id: '4', name: 'Person 4', type: PERSON }],
         ])
       });
     });
@@ -300,35 +303,35 @@ describe('Contacts Reducer', () => {
     it('should push dead people to below muted people at the bottom of the list', () => {
       state = {
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
+          { _id: '1', name: 'Person 1', type: PERSON },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }]
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }]
         ])
       };
       const newContacts = [
-        { _id: '2', name: 'Person 2', type: 'person', muted: true },
-        { _id: '3', name: 'Person 3', type: 'person' },
-        { _id: '4', name: 'Person 4', type: 'person', date_of_death: '2020-11-18' },
-        { _id: '5', name: 'Person 5', type: 'person' }
+        { _id: '2', name: 'Person 2', type: PERSON, muted: true },
+        { _id: '3', name: 'Person 3', type: PERSON },
+        { _id: '4', name: 'Person 4', type: PERSON, date_of_death: '2020-11-18' },
+        { _id: '5', name: 'Person 5', type: PERSON }
       ];
 
       const newState = contactsReducer(state, Actions.updateContactsList(newContacts));
 
       expect(newState).to.deep.equal({
         contacts: [
-          { _id: '1', name: 'Person 1', type: 'person' },
-          { _id: '3', name: 'Person 3', type: 'person' },
-          { _id: '5', name: 'Person 5', type: 'person' },
-          { _id: '2', name: 'Person 2', type: 'person', muted: true },
-          { _id: '4', name: 'Person 4', type: 'person', date_of_death: '2020-11-18' },
+          { _id: '1', name: 'Person 1', type: PERSON },
+          { _id: '3', name: 'Person 3', type: PERSON },
+          { _id: '5', name: 'Person 5', type: PERSON },
+          { _id: '2', name: 'Person 2', type: PERSON, muted: true },
+          { _id: '4', name: 'Person 4', type: PERSON, date_of_death: '2020-11-18' },
         ],
         contactsById: new Map([
-          ['1', { _id: '1', name: 'Person 1', type: 'person' }],
-          ['2', { _id: '2', name: 'Person 2', type: 'person', muted: true  }],
-          ['3', { _id: '3', name: 'Person 3', type: 'person' }],
-          ['4', { _id: '4', name: 'Person 4', type: 'person', date_of_death: '2020-11-18' }],
-          ['5', { _id: '5', name: 'Person 5', type: 'person' }],
+          ['1', { _id: '1', name: 'Person 1', type: PERSON }],
+          ['2', { _id: '2', name: 'Person 2', type: PERSON, muted: true  }],
+          ['3', { _id: '3', name: 'Person 3', type: PERSON }],
+          ['4', { _id: '4', name: 'Person 4', type: PERSON, date_of_death: '2020-11-18' }],
+          ['5', { _id: '5', name: 'Person 5', type: PERSON }],
         ])
       });
     });

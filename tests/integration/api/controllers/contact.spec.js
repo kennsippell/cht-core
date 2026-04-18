@@ -112,10 +112,9 @@ describe('Contact API', () => {
     roles: ['chw']
   }));
   const allDocItems = [contact0, contact1, contact2, place0, place1, place2, clinic1, clinic2, patient];
-  const personType = 'person';
   const e2eTestUser = {
     '_id': 'e2e_contact_test_id',
-    'type': personType,
+    'type': CONTACT_TYPES.PERSON,
   };
   const onlineUserPlaceHierarchy = {
     parent: {
@@ -138,12 +137,12 @@ describe('Contact API', () => {
     patient,
     e2eTestUser,
     {
-      type: personType,
+      type: CONTACT_TYPES.PERSON,
       ...userNoPerms.contact,
       ...onlineUserPlaceHierarchy
     },
     {
-      type: personType,
+      type: CONTACT_TYPES.PERSON,
       ...offlineUser.contact,
       ...offlineUserPlaceHierarchy
     }
@@ -257,7 +256,7 @@ describe('Contact API', () => {
       const opts = {
         path: `${endpoint}`,
         qs: {
-          type: personType
+          type: CONTACT_TYPES.PERSON
         }
       };
       const responsePage = await utils.request(opts);
@@ -309,7 +308,7 @@ describe('Contact API', () => {
       const opts = {
         path: `${endpoint}`,
         qs: {
-          type: personType,
+          type: CONTACT_TYPES.PERSON,
           freetext
         }
       };
@@ -344,7 +343,7 @@ describe('Contact API', () => {
     it('returns a page of people type contact ids when limit and cursor is passed and cursor can be reused',
       async () => {
         const qs = {
-          type: personType,
+          type: CONTACT_TYPES.PERSON,
           limit: fourLimit
         };
         // first request
@@ -439,7 +438,7 @@ describe('Contact API', () => {
       const expectedContactIds = [contact0._id, contact1._id, contact2._id];
       const qs = {
         freetext,
-        type: personType,
+        type: CONTACT_TYPES.PERSON,
         limit: twoLimit
       };
       const opts = {
@@ -614,7 +613,7 @@ describe('Contact API', () => {
 
     it('throws 400 error when limit is invalid', async () => {
       const qs = {
-        type: personType,
+        type: CONTACT_TYPES.PERSON,
         limit: -1
       };
       const opts = {
@@ -629,7 +628,7 @@ describe('Contact API', () => {
 
     it('throws 500 error when cursor is invalid', async () => {
       const qs = {
-        type: personType,
+        type: CONTACT_TYPES.PERSON,
         cursor: '-1',
         freetext,
       };

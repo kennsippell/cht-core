@@ -1,6 +1,7 @@
 const { buildViewMapFn } = require('./utils');
 const medicOfflineFreetext = require('../../../../src/js/bootstrapper/offline-ddocs/medic-offline-freetext');
 const { expect } = require('chai');
+const { CONTACT_TYPES } = require('@medic/constants');
 
 const expectedValue = (
   {typeIndex, name, dead = false, muted = false } = {}
@@ -14,7 +15,7 @@ describe('contacts_by_freetext', () => {
     ['district_hospital', 0],
     ['health_center', 1],
     ['clinic', 2],
-    ['person', 3],
+    [CONTACT_TYPES.PERSON, 3],
   ].forEach(([type, typeIndex]) => it(`emits numerical index [${typeIndex}] for default type`, () => {
     const doc = { type, hello: 'world' };
 
@@ -31,7 +32,7 @@ describe('contacts_by_freetext', () => {
     ['contact', 0, 'district_hospital'],
     ['contact', 1, 'health_center'],
     ['contact', 2, 'clinic'],
-    ['contact', 3, 'person']
+    ['contact', 3, CONTACT_TYPES.PERSON]
   ].forEach(([type, typeIndex, contactType]) => it(
     `emits numerical index [${typeIndex}] for default type when used as custom type`,
     () => {

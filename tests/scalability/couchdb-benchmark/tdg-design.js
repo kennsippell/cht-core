@@ -21,7 +21,7 @@ const getHousehold = context => getPlace(context, 'clinic', 'Household');
 
 const getPerson = (context, role) => {
   return {
-    type: 'person',
+    type: CONTACT_TYPES.PERSON,
     name: 'Joanna',
     sex: '',
     phone_alternate: '',

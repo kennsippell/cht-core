@@ -2,6 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const utilsFactory = require('../src/bulk-docs-utils');
 const { Contact } = require('@medic/cht-datasource');
+const { CONTACT_TYPES } = require('@medic/constants');
 
 describe('Bulk Docs utils factory', () => {
   it('defaults dependencies to empty object when not provided', () => {
@@ -37,7 +38,7 @@ describe('Bulk Docs utils', () => {
       };
       const person = {
         _id: 'a',
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         name: 'sally',
         parent: {
           _id: 'b'
@@ -64,7 +65,7 @@ describe('Bulk Docs utils', () => {
       };
       const person = {
         _id: 'a',
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         name: 'sally',
         parent: {
           _id: 'b'
@@ -89,7 +90,7 @@ describe('Bulk Docs utils', () => {
       };
       const person = {
         _id: 'a',
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         name: 'sally',
         parent: {
           _id: 'b'
@@ -106,7 +107,7 @@ describe('Bulk Docs utils', () => {
     it('resolves with no updates when doc has no parent', () => {
       const person = {
         _id: 'a',
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         name: 'sally'
       };
       return utils.updateParentContacts([person]).then(updatedParents => {
@@ -123,7 +124,7 @@ describe('Bulk Docs utils', () => {
       };
       const person = {
         _id: 'a',
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         name: 'sally',
         parent: {
           _id: 'b'

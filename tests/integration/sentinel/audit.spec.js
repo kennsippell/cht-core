@@ -44,7 +44,7 @@ const contacts = [
     _id: 'person',
     name: 'Person',
     type: 'contact',
-    contact_type: 'person',
+    contact_type: CONTACT_TYPES.PERSON,
     patient_id: 'patient',
     parent: { _id: 'clinic', parent: { _id: CONTACT_TYPES.HEALTH_CENTER, parent: { _id: 'district_hospital' } } },
     phone: '+444999',

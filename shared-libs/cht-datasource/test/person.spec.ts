@@ -9,8 +9,11 @@ import sinon, { SinonStub } from 'sinon';
 import { expect } from 'chai';
 import { DataContext } from '../src';
 import { fakeGenerator } from './utils';
+import { CONTACT_TYPES } from '@medic/constants';
 
-describe('person', () => {
+const { PERSON } = CONTACT_TYPES;
+
+describe(PERSON, () => {
   const dataContext = {} as DataContext;
   let assertDataContext: SinonStub;
   let adapt: SinonStub;
@@ -135,7 +138,7 @@ describe('person', () => {
       const pageData = { data: people, cursor };
       const limit = 3;
       const stringifiedLimit = '3';
-      const personTypeQualifier = { contactType: 'person' } as const;
+      const personTypeQualifier = { contactType: PERSON } as const;
       const invalidQualifier = { contactType: 'invalid' } as const;
       let getPage: SinonStub;
 
@@ -265,8 +268,7 @@ describe('person', () => {
     });
 
     describe('getAll', () => {
-      const personType = 'person';
-      const personTypeQualifier = { contactType: personType } as const;
+      const personTypeQualifier = { contactType: PERSON } as const;
       const firstPerson = { _id: 'person1' } as Person.v1.Person;
       const secondPerson = { _id: 'person2' } as Person.v1.Person;
       const thirdPerson = { _id: 'person3' } as Person.v1.Person;
@@ -328,7 +330,7 @@ describe('person', () => {
       it('returns person doc for valid input', async () => {
         const input = {
           name: 'person-1',
-          type: 'person',
+          type: PERSON,
           parent: 'p1'
         };
         const doc = {
@@ -369,7 +371,7 @@ describe('person', () => {
       it('returns person doc for valid input', async () => {
         const input = {
           name: 'person-1',
-          type: 'person',
+          type: PERSON,
           parent: { _id: 'p1', name: 'hydrated parent doc' },
           _id: '123',
           _rev: '1-abc',

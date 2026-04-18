@@ -4,6 +4,7 @@ const moment = require('moment');
 const utils = require('../../src/lib/utils');
 const config = require('../../src/config');
 const contactTypeUtils = require('@medic/contact-types-utils');
+const { CONTACT_TYPES } = require('@medic/constants');
 
 const contact = {
   phone: '+1234',
@@ -268,7 +269,7 @@ describe('functional schedules', () => {
       from: contact.phone,
       contact: contact,
       fields: { patient_id: '98765' },
-      patient: { parent: { contact: { phone: '+5551596' } }, type: 'person' },
+      patient: { parent: { contact: { phone: '+5551596' } }, type: CONTACT_TYPES.PERSON },
     };
 
     return transition.onMatch({ doc: doc }).then(complete => {
@@ -577,7 +578,7 @@ describe('functional schedules', () => {
       muted: false,
       parent: { contact: { phone: '+5551596' } },
       type: 'contact',
-      contact_type: 'person',
+      contact_type: CONTACT_TYPES.PERSON,
       patient_id: '98765',
     };
     const doc = {

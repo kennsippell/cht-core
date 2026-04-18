@@ -1,6 +1,7 @@
 const chai = require('chai');
 const GenerateSeachRequests = require('../src/generate-search-requests');
 const service = GenerateSeachRequests.generate;
+const { CONTACT_TYPES } = require('@medic/constants');
 
 describe('GenerateSearchRequests service', () => {
 
@@ -155,8 +156,8 @@ describe('GenerateSearchRequests service', () => {
   it('creates contacts type request for types filter', () => {
     const filters = {
       types: {
-        selected: [ 'person', 'clinic' ],
-        options: [ 'person', 'clinic', 'district_hospital' ]
+        selected: [ CONTACT_TYPES.PERSON, 'clinic' ],
+        options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
       }
     };
     const result = service('contacts', filters);
@@ -164,7 +165,7 @@ describe('GenerateSearchRequests service', () => {
     chai.expect(result[0]).to.deep.equal({
       view: 'medic-client/contacts_by_type',
       params: {
-        keys: [ [ 'person' ], [ 'clinic' ] ],
+        keys: [ [ CONTACT_TYPES.PERSON ], [ 'clinic' ] ],
         reduce: false
       }
     });
@@ -173,7 +174,7 @@ describe('GenerateSearchRequests service', () => {
   it('creates request to filter contacts by parent when contact ID and types are provided', () => {
     const filters = {
       types: {
-        selected: [ 'person' ],
+        selected: [ CONTACT_TYPES.PERSON ],
       },
       parent: 'S-123',
     };
@@ -184,14 +185,14 @@ describe('GenerateSearchRequests service', () => {
     chai.expect(result[0]).to.deep.equal({
       view: 'medic-client/contacts_by_parent',
       params: {
-        keys: [ [ 'S-123', 'person' ] ],
+        keys: [ [ 'S-123', CONTACT_TYPES.PERSON ] ],
       },
     });
   });
 
   it('creates request to filter contacts by parent and freetext', () => {
     const filters = {
-      types: { selected: [ 'person' ] },
+      types: { selected: [ CONTACT_TYPES.PERSON ] },
       search: 'someth',
       parent: 'S-123',
     };
@@ -202,7 +203,7 @@ describe('GenerateSearchRequests service', () => {
     chai.expect(result[0]).to.deep.equal({
       view: 'medic-client/contacts_by_parent',
       params: {
-        keys: [ [ 'S-123', 'person' ] ],
+        keys: [ [ 'S-123', CONTACT_TYPES.PERSON ] ],
       },
     });
     chai.expect(result[1]).to.deep.equal({
@@ -210,7 +211,7 @@ describe('GenerateSearchRequests service', () => {
       union: false,
       freetext: true,
       params: {
-        type: 'person',
+        type: CONTACT_TYPES.PERSON,
         key: 'someth'
       },
     });
@@ -231,8 +232,8 @@ describe('GenerateSearchRequests service', () => {
   it('creates unfiltered contacts request for types filter when all options are selected', () => {
     const filters = {
       types: {
-        selected: [ 'person', 'clinic', 'district_hospital' ],
-        options: [ 'person', 'clinic', 'district_hospital' ]
+        selected: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ],
+        options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
       }
     };
     const result = service('contacts', filters);
@@ -243,7 +244,7 @@ describe('GenerateSearchRequests service', () => {
     const filters = {
       types: {
         selected: [],
-        options: [ 'person', 'clinic', 'district_hospital' ]
+        options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
       }
     };    
     const result = service('contacts', filters);
@@ -254,7 +255,7 @@ describe('GenerateSearchRequests service', () => {
   it('creates contacts type request for type filter without options', () => {
     const filters = {
       types: {
-        selected: [ 'person', 'clinic' ]
+        selected: [ CONTACT_TYPES.PERSON, 'clinic' ]
         // no options.
       }
     };
@@ -263,7 +264,7 @@ describe('GenerateSearchRequests service', () => {
     chai.expect(result[0]).to.deep.equal({
       view: 'medic-client/contacts_by_type',
       params: {
-        keys: [ [ 'person' ], [ 'clinic' ] ],
+        keys: [ [ CONTACT_TYPES.PERSON ], [ 'clinic' ] ],
         reduce: false
       }
     });
@@ -355,7 +356,7 @@ describe('GenerateSearchRequests service', () => {
         search: 'someth',
         types: {
           selected: [ 'clinic' ],
-          options: [ 'person', 'clinic', 'district_hospital' ]
+          options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
         }
       };
       const result = service('contacts', filters);
@@ -378,7 +379,7 @@ describe('GenerateSearchRequests service', () => {
         search: 'a be see d elephant',
         types: {
           selected: [ 'clinic' ],
-          options: [ 'person', 'clinic', 'district_hospital' ]
+          options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
         }
       };
       const result = service('contacts', filters);
@@ -400,7 +401,7 @@ describe('GenerateSearchRequests service', () => {
         search: 'some thing',
         types: {
           selected: [ 'clinic' ],
-          options: [ 'person', 'clinic', 'district_hospital' ]
+          options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
         }
       };
       const result = service('contacts', filters);
@@ -422,7 +423,7 @@ describe('GenerateSearchRequests service', () => {
         search: 'some thing',
         types: {
           selected: [ 'clinic', 'district_hospital' ],
-          options: [ 'person', 'clinic', 'district_hospital' ]
+          options: [ CONTACT_TYPES.PERSON, 'clinic', 'district_hospital' ]
         }
       };
       const result = service('contacts', filters);
