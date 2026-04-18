@@ -377,14 +377,16 @@ describe('scheduler', () => {
     it('should not skip job when time is milliseconds before schedule and should launch before next one', () => {
       sinon.stub(scheduling, 'getSchedule')
         .returns(later.parse.cron('*/2 * * * * *', true));  // each 2 seconds, even seconds
+      let wait = 0;
       const now = moment();
-      const msToNextSecond = 1000 - now.milliseconds();
-      const wait = now.seconds() % 2 === 0 ? msToNextSecond + 500 : 500;
+      if (now.seconds() % 2 === 0) {  // if seconds of the current time has even seconds (e.g. 32)
+        wait = 1000;                  // wait 1 second until an odd second is reached    (e.g. 33)
+      }
       return nextTick(wait)
         .then(() => {
           // now time has odd seconds + some milliseconds ahead
           initMoment = moment();
-          logger.debug('Init time: %s', initMoment);
+          logger.debug('Init time: %s', now);
           unit.init();
         })
         .then(() => nextTick(2200))
@@ -402,14 +404,16 @@ describe('scheduler', () => {
     it('should not skip job when time is milliseconds ahead schedule and should launch within the same second', () => {
       sinon.stub(scheduling, 'getSchedule')
         .returns(later.parse.cron('*/2 * * * * *', true));  // each 2 seconds, even seconds
+      let wait = 0;
       const now = moment();
-      const msToNextSecond = 1000 - now.milliseconds();
-      const wait = now.seconds() % 2 === 1 ? msToNextSecond + 500 : 500;
+      if (now.seconds() % 2 === 1) {  // if seconds of the current time has odd seconds (e.g. 31)
+        wait = 1000;                  // wait 1 second until an even second is reached  (e.g. 32)
+      }
       return nextTick(wait)
         .then(() => {
           // now time has even seconds + some milliseconds ahead
           initMoment = moment();
-          logger.debug('Init time: %s', initMoment);
+          logger.debug('Init time: %s', now);
           unit.init();
         })
         .then(() => nextTick(2200))

@@ -1,6 +1,5 @@
 const chai = require('chai');
 const uuid = require('uuid').v4;
-const sentinelUtils = require('@utils/sentinel');
 const utils = require('@utils');
 const apiUtils = require('./utils');
 
@@ -86,7 +85,6 @@ describe('message duplicates', () => {
     return utils
       .updateSettings(settings, { ignoreReload: true })
       .then(() => postMessages(firstMessages))
-      .then(ids => sentinelUtils.waitForSentinel(ids).then(() => ids))
       .then(ids => utils.getDocs(ids))
       .then(docs => {
         docs.forEach(doc => {
@@ -101,7 +99,6 @@ describe('message duplicates', () => {
         });
       })
       .then(() => postMessages(secondMessages))
-      .then(ids => sentinelUtils.waitForSentinel(ids).then(() => ids))
       .then(ids => utils.getDocs(ids))
       .then(docs => {
         docs.forEach(doc => {
@@ -116,7 +113,6 @@ describe('message duplicates', () => {
         });
       })
       .then(() => postMessages(thirdMessages))
-      .then(ids => sentinelUtils.waitForSentinel(ids).then(() => ids))
       .then(ids => utils.getDocs(ids))
       .then(docs => {
         docs.forEach(doc => {
@@ -159,7 +155,6 @@ describe('message duplicates', () => {
     return utils
       .updateSettings(settings, { ignoreReload: true })
       .then(() => postMessages(firstMessages))
-      .then(ids => sentinelUtils.waitForSentinel(ids).then(() => ids))
       .then(ids => utils.getDocs(ids))
       .then(docs => {
         docs.forEach(doc => {
@@ -178,7 +173,6 @@ describe('message duplicates', () => {
         });
       })
       .then(() => postMessages(secondMessages))
-      .then(ids => sentinelUtils.waitForSentinel(ids).then(() => ids))
       .then(ids => utils.getDocs(ids))
       .then(docs => {
         docs.forEach(doc => {
