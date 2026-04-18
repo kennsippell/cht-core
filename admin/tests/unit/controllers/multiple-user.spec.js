@@ -1,3 +1,5 @@
+const { DOC_TYPES: MULTI_USER_DOC_TYPES } = require('@medic/constants');
+
 describe('MultipleUserCtrl controller', () => {
   'use strict';
 
@@ -81,8 +83,8 @@ describe('MultipleUserCtrl controller', () => {
               },
               role: 'chw',
               geolocalized: 'false',
-              type: 'contact',
-              ontact_type: 'c62_chw',
+              type: MULTI_USER_DOC_TYPES.CONTACT,
+              contact_type: 'c62_chw',
               name: 'test user'
             },
             email: 'test@testing.com',

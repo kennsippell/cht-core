@@ -1,6 +1,7 @@
 const { buildViewMapFn } = require('./utils');
 const medicOfflineFreetext = require('../../../../src/js/bootstrapper/offline-ddocs/medic-offline-freetext');
 const { expect } = require('chai');
+const { DOC_TYPES } = require('@medic/constants');
 
 const expectedValue = (
   {typeIndex, name, dead = false, muted = false } = {}
@@ -51,7 +52,7 @@ describe('contacts_by_type_freetext', () => {
 
   it('emits contact_type index for custom type', () => {
     const typeIndex = 'my_custom_type';
-    const doc = { contact_type: typeIndex, type: 'contact', hello: 'world' };
+    const doc = { contact_type: typeIndex, type: DOC_TYPES.CONTACT, hello: 'world' };
     const emitted = mapFn(doc, true);
 
     const value = expectedValue({ typeIndex });

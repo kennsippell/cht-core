@@ -12,7 +12,7 @@ const {
 const { USER_ROLES } = require('@medic/constants');
 const userFactory = require('@factories/cht/users/users');
 const { setAuth, removeAuth } = require('./auth');
-const { CONTACT_TYPES } = require('@medic/constants');
+const { CONTACT_TYPES, DOC_TYPES } = require('@medic/constants');
 const { expect } = require('chai');
 
 describe('cht-datasource Place', () => {
@@ -263,7 +263,7 @@ describe('cht-datasource Place', () => {
             _id: place1._id,
             parent: { _id: place1.parent._id }
           },
-          type: 'contact',
+          type: DOC_TYPES.CONTACT,
           contact_type: 'clinic',
         });
       });
@@ -278,7 +278,7 @@ describe('cht-datasource Place', () => {
 
         expect(placeDoc).excluding(['_id', '_rev', 'reported_date']).to.deep.equal({
           ...input,
-          type: 'contact',
+          type: DOC_TYPES.CONTACT,
           contact_type: 'district_hospital',
         });
         expect(placeDoc.reported_date).to.be.a('number');
