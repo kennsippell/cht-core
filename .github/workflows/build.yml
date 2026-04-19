@@ -12,7 +12,7 @@ env:
   DOCKERHUB_USERNAME: 'dockermedic'
   ECR_REPO: '720541322708.dkr.ecr.eu-west-2.amazonaws.com/medic'
   ECR_PUBLIC_REPO: 'public.ecr.aws/medic'
-  COUCHDB_LOG_LEVEL: 'debug'
+  COUCHDB_LOG_LEVEL: 'info'
   LOG_LEVEL: 'debug'
   TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || '' }}
   BRANCH: ${{ github.head_ref || github.ref_name }}
@@ -203,6 +203,9 @@ jobs:
       - uses: azure/setup-kubectl@v4
       - name: Run tests
         run: npm run ${{ matrix.cmd }}
+      - name: Scan logs for security issues
+        if: always()
+        run: node scripts/ci/log-scanner.js tests/logs/
       - name: Archive Results
         uses: actions/upload-artifact@v4
         with:
@@ -365,6 +368,15 @@ jobs:
         npm install chromedriver@^107.0.3
     - name: Run tests ${{ matrix.cmd }}-${{ matrix.suite }} on Chrome ${{ matrix.chrome-version }}
       run: npm run ${{ matrix.cmd }} -- --suite=${{ matrix.suite }}
+
+    - name: Scan logs for security issues
+      if: always()
+      run: |
+        if [[ "${{ matrix.cmd }}" == ci-webdriver* || "${{ matrix.cmd }}" == wdio* ]]; then
+          node scripts/ci/log-scanner.js tests/logs/ --scan-errors
+        else
+          node scripts/ci/log-scanner.js tests/logs/
+        fi
 
     - name: Archive Results
       uses: actions/upload-artifact@v4
