@@ -48,6 +48,20 @@ updates:
       angular:
         patterns:
         - "angular*"
+        
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    commit-message:
+      prefix: "chore"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+
     cooldown:
       default-days: 7
       semver-major-days: 14
