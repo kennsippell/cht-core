@@ -24,6 +24,7 @@ import { SessionService } from '@mm-services/session.service';
 import { DbService } from '@mm-services/db.service';
 import { TelemetryService } from '@mm-services/telemetry.service';
 import { DOC_TYPES } from '@medic/constants';
+import { InteractionTrackingService } from '@mm-services/interaction-tracking.service';
 
 describe('TasksComponent', () => {
   let getComponent;
@@ -36,6 +37,7 @@ describe('TasksComponent', () => {
   let store;
   let lineageModelGeneratorService;
   let telemetryService;
+  let interactionTrackingService;
 
   let component: TasksComponent;
   let fixture: ComponentFixture<TasksComponent>;
@@ -54,6 +56,7 @@ describe('TasksComponent', () => {
     };
     lineageModelGeneratorService = { reportSubjects: sinon.stub().resolves([]) };
     telemetryService = { record: sinon.stub() };
+    interactionTrackingService = { startSession: sinon.stub(), record: sinon.stub(), flush: sinon.stub() };
 
     TestBed.configureTestingModule({
       imports: [
@@ -79,6 +82,7 @@ describe('TasksComponent', () => {
         { provide: SessionService, useValue: { isOnlineOnly: sinon.stub().returns(false) } },
         { provide: DbService, useValue: { get: sinon.stub().resolves() } },
         { provide: TelemetryService, useValue: telemetryService },
+        { provide: InteractionTrackingService, useValue: interactionTrackingService },
       ],
     });
 
@@ -251,11 +255,11 @@ describe('TasksComponent', () => {
     expect(!!changesFeed.filter({})).to.be.false;
     expect(changesFeed.filter({ id: 'person', doc: { _id: 'person', type: 'person' }})).to.be.true;
     expect(changesFeed.filter({ id: 'clinic', doc: { _id: 'clinic', type: 'clinic' }})).to.be.true;
-    expect(changesFeed.filter({ id: 'report', doc: { _id: 'report', 
+    expect(changesFeed.filter({ id: 'report', doc: { _id: 'report',
       type: DOC_TYPES.DATA_RECORD, form: 'form' }})).to.be.true;
     expect(changesFeed.filter({ id: 'task', doc: { _id: 'task', type: 'task' }})).to.be.true;
 
-    expect(changesFeed.filter({ id: 'foo', doc: { _id: 'a', 
+    expect(changesFeed.filter({ id: 'foo', doc: { _id: 'a',
       type: DOC_TYPES.DATA_RECORD, form: undefined }})).to.be.false;
   });
 
