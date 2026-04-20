@@ -649,6 +649,39 @@ mm-analytics-filters {
     }
   }
 
+  .compact-card  { 
+    & > .card-body > button.action-header,
+    & button.action-header {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    overflow: auto;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    h3 {
+      float: left;
+      margin: 0;
+    }
+
+    .fa-chevron-right,
+    .fa-chevron-down {
+      font-size: 14px;
+      color: #555;
+      margin-left: 8px;
+      float: right;
+    }
+  }
+}
+
   .card.children .content-row.muted h4 {
     color: @inactive-color;
   }
