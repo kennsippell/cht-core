@@ -63,7 +63,9 @@ angular
 
     const validateSkipPasswordPermission = () => {
       $scope.skipPasswordChange = datasource.v1.hasPermissions(
-        ['can_skip_password_change'], $scope.editUserModel.roles, $scope.permissions
+        ['can_skip_password_change'],
+        $scope.editUserModel.roles,
+        $scope.settings
       );
     };
 
@@ -112,7 +114,7 @@ angular
       // If $scope.model === {}, we're creating a new user.
       return $q.all([Settings(), getOidcUsername()])
         .then(([settings, oidcUsername]) => {
-          $scope.permissions = settings.permissions;
+          $scope.settings = settings;
           $scope.roles = settings.roles;
           $scope.allowTokenLogin = allowTokenLogin(settings);
           $scope.allowSSOLogin = allowSSOLogin(settings);
@@ -330,7 +332,9 @@ angular
       }
 
       const userHasPermission = datasource.v1.hasPermissions(
-        ['can_have_multiple_places'], $scope.editUserModel.roles, $scope.permissions
+        ['can_have_multiple_places'],
+        $scope.editUserModel.roles,
+        $scope.settings
       );
 
       if (!userHasPermission) {
