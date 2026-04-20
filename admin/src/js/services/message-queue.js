@@ -1,6 +1,7 @@
 const lineageFactory = require('@medic/lineage');
 const messageUtils = require('@medic/message-utils');
 const registrationUtils = require('@medic/registration-utils');
+const docSummaries = require('@medic/doc-summaries');
 const constants = require('@medic/constants');
 const DOC_TYPES = constants.DOC_TYPES;
 
@@ -39,11 +40,9 @@ angular.module('services').factory('MessageQueue',
         return;
       }
 
-      const summary = summaries.rows.find(function(summary) {
-        return summary.value && summary.value.phone === message.sms.to;
+      return summaries.find(function(summary) {
+        return summary && summary.phone === message.sms.to;
       });
-
-      return summary && summary.value;
     };
 
     const findIdByKey = (contactsByReference, key) => {
@@ -101,9 +100,16 @@ angular.module('services').factory('MessageQueue',
             return row.id;
           });
 
-          return DB({ remote: true }).query('medic/doc_summaries_by_id', { keys: ids });
+          return DB({ remote: true }).allDocs({ keys: ids, include_docs: true });
         })
-        .then(function(summaries) {
+        .then(function(response) {
+          const summaries = response.rows
+            .map(function(row) {
+              return docSummaries.summarise(row.doc);
+            })
+            // filter out deleted/missing docs
+            .filter(Boolean);
+
           messages.forEach(function(message) {
             message.recipient = findSummary(summaries, message);
           });
