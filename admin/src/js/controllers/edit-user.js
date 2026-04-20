@@ -177,14 +177,19 @@ angular
         .map((row) => row.doc);
     };
 
+    $scope.loadingUserDetails = true;
+    $scope.errorLoadingUserDetails = false;
     this.setupPromise = determineEditUserModel()
       .then(model => {
         $scope.editUserModel = model;
+        $scope.loadingUserDetails = false;
         validateSkipPasswordPermission();
         populateFacilitynContact();
       })
       .catch(err => {
         $log.error('Error determining user model', err);
+        $scope.loadingUserDetails = false;
+        $scope.errorLoadingUserDetails = true;
       });
 
     const populateFacilitynContact = () => {
