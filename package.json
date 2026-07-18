@@ -249,7 +249,7 @@
     "url-join": "^4.0.1",
     "uuid": "^10.0.0",
     "winston": "^3.18.3",
-    "workbox-build": "^7.3.0",
+    "workbox-build": "^7.4.1",
     "xmlbuilder": "^15.1.1"
   },
   "overrides": {
