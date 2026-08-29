@@ -214,7 +214,7 @@
     "fs-extra": "^11.3.4",
     "google-libphonenumber": "^3.2.44",
     "gsm": "^0.1.4",
-    "helmet": "^8.1.0",
+    "helmet": "^8.3.0",
     "http-proxy": "^1.18.1",
     "later": "^1.2.0",
     "locale": "^0.1.0",
