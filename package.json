@@ -187,7 +187,7 @@
     "shellcheck": "^4.1.0",
     "sinon": "^21.0.1",
     "sinon-chai": "^3.7.0",
-    "swagger-jsdoc": "^6.2.8",
+    "swagger-jsdoc": "^6.3.0",
     "tail": "^2.2.6",
     "ts-json-schema-generator": "^2.9.0",
     "ts-node": "^10.9.2",
