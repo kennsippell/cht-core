@@ -39,7 +39,7 @@
     "@ngrx/effects": "^20.1.0",
     "@ngrx/store": "^20.1.0",
     "@ngx-translate/core": "^16.0.4",
-    "@webcomponents/webcomponentsjs": "^2.8.0",
+    "@webcomponents/webcomponentsjs": "^2.8.1",
     "bikram-sambat-bootstrap": "^1.8.0",
     "bootstrap": "^3.4.1",
     "bootstrap-daterangepicker": "^2.1.30",
